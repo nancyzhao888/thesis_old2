@@ -171,6 +171,36 @@ div.tooltip {
 		background-size: cover;
 		opacity: 1;
 }
+
+.demo {
+    margin-top: 50px;
+    font-family: MouseDeco;
+    font-size: 18px;
+    color: white;
+    margin-left:10px;
+    /*font-size: 9px;*/
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid #DEAD27;
+    border-radius: 2px;
+    color: #DEAD27;
+}
+
+.enter {
+    margin-top: 50px;
+    font-family: MouseDeco;
+    font-size: 18px;
+    color: white;
+    margin-left:10px;
+    /*font-size: 9px;*/
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid #DEAD27;
+    border-radius: 2px;
+    color: #DEAD27;
+}
 .footer {
   position: fixed;
   bottom: 0;
@@ -227,6 +257,8 @@ div.tooltip {
     <p></p>
     <p class="intro"> 40 theatres, 12 blocks, 1 city......</p>
     <p class="intro"> Does the life of a Broadway musical end here?</p>
+    <div class="demo" onclick='window.location.href="https://nancyzhao888.github.io/thesis/work/broadway/video/presentation.mov"'>Demo</div>
+    <div class="enter">Explore</div>
 </div>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -423,7 +455,7 @@ var drawNodesLinks = function(error, _graph){
     }
   
     
-    d3.select("#overlay").on("click", closeMe)
+    d3.select(".enter").on("click", closeMe)
     
     function closeMe(){
       d3.select('#overlay').style("display", 'none');
