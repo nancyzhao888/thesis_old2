@@ -16,6 +16,11 @@
     src: url(css/JosefinSans-Regular.ttf);
 }
 
+@font-face {
+    font-family: JosefinBold;
+    src: url(css/JosefinSans-SemiBold.ttf);
+}
+
 body {
     text-align: center;
 }
@@ -131,10 +136,10 @@ body {
     font-size: 12px;
 }
 .labelText {
-    font-family: Josefin;
+    font-family: JosefinBold;
     text-transform: uppercase;
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 1px;
     
 }
@@ -157,19 +162,41 @@ div.tooltip {
   text-align: center;
   width: 150px;
   height: auto;
-  padding: 2px;
+  padding: 5px 5px;
   font: 13px Josefin;
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
 }
 
-#overlay{
+#overlay1{
 		position: fixed;
 		top: 0px;
 		background: linear-gradient(to bottom right,rgba(0,47,75,0.6), rgba(220,66,37,0.6)), url("images/background1.png") no-repeat center; 
 		background-size: cover;
 		opacity: 1;
+}
+
+#overlay2 {
+  position: fixed;
+  background: black;
+  top: 0px;
+}
+#overlay2 video { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /*min-width: 100%;*/
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    /*transform: translateX(-50%) translateY(-50%);
+    /*background: url(preview.png) no-repeat;
+    /*background-size: cover; */
 }
 
 .demo {
@@ -252,13 +279,18 @@ div.tooltip {
   </footer>
 </div>
 </section>
-<div id='overlay' class='col-lg-12 col-md-12 col-xs-12' style='height: 100%'>
+<div id='overlay1' class='col-lg-12 col-md-12 col-xs-12' style='height: 100%'>
     <img id="title" src="images/title.png"></img>
     <p></p>
     <p class="intro"> 40 theatres, 12 blocks, 1 city......</p>
     <p class="intro"> Does the life of a Broadway musical end here?</p>
     <div class="demo"><a href="https://nancyzhao888.github.io/thesis/work/broadway/video/presentation.mp4">Demo</a></div>
     <div class="enter">Explore</div>
+</div>
+<div id='overlay2' class='col-lg-12 col-md-12 col-xs-12'>
+    <video playsinline autoplay muted no repeat id="myVideo">
+      <source src="video/Wicked.mp4" type="video/mp4">
+    </video>
 </div>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -333,6 +365,11 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width/2, (newHeight-160)/2));
 
+d3.select("#myVideo").on("click", closeYou)
+    
+    function closeYou(){
+      d3.select('#overlay2').style("display", 'none');
+    }
 function simulation_init(n,l,link,node){
         
 
@@ -458,7 +495,7 @@ var drawNodesLinks = function(error, _graph){
     d3.select(".enter").on("click", closeMe)
     
     function closeMe(){
-      d3.select('#overlay').style("display", 'none');
+      d3.select('#overlay1').style("display", 'none');
     }
         
     // graph.links.forEach(function(d){
@@ -689,10 +726,24 @@ var drawNodesLinks = function(error, _graph){
       .append("div")
       .attr("class", "filter");
     
-    bOpt.html("<div class='a' id ='Group'>Group by</div><div title='....' class='b' id ='Adapt'>Source Material</div><div title='...' class='b' id='Genre'>Type</div><div title='...' class='b' id= 'Tonys'>Tony Awards</div><div title='...' class='b' id='Gender'>Gender of Lead</div><div class='d' id='reset'>Reset</div>");
+    bOpt.html("<div class='a' id ='Group'>Group by</div><div class='b' id ='Adapt'>Source Material</div><div class='b' id='Genre'>Type</div><div class='b' id= 'Tonys'>Tony Awards</div><div class='b' id='Gender'>Gender of Lead</div><div class='d' id='reset'>Reset</div>");
     
     d3.select('#Tonys')
-      .on("click", clusterbyTonys);
+      .on("click", clusterbyTonys)
+      .on("mouseover", function(d) {
+             div.transition()
+               .duration(200)
+               .style("opacity", .9);
+             div.html("DO the Tony Awards matter? Aside from prestige and a shiny trophy, does Tony Award help a musical title gain more overseas presence?")
+               .style("left", (d3.event.pageX) + "px")
+               .style("top", (d3.event.pageY - 28) + "px")
+               .style("background", "#CBA9A2");
+          })
+         .on("mouseout", function(d) {
+             div.transition()
+               .duration(500)
+               .style("opacity", 0);
+          });
     
     function clusterbyTonys() {
         
@@ -772,7 +823,7 @@ var drawNodesLinks = function(error, _graph){
               .style("stroke-width", 2)
                   
         svg.append("text")
-            .attr("x",width-115)
+            .attr("x",width-130)
             .attr("y", window.innerHeight/2 - 75)
             .text("No Tony Awards")
             .attr("class", "labelText")
@@ -784,7 +835,21 @@ var drawNodesLinks = function(error, _graph){
     }
     
     d3.select('#Gender')
-      .on("click", clusterbyGender);
+      .on("click", clusterbyGender)
+      .on("mouseover", function(d) {
+             div.transition()
+               .duration(200)
+               .style("opacity", .9);
+             div.html("As a highly discussed issue in TV & Film, gender diversity in theatrical works is less examined. Are there trends for strong female-leading, strong male-leading, or mixed cast? ")
+               .style("left", (d3.event.pageX) + "px")
+               .style("top", (d3.event.pageY - 28) + "px")
+               .style("background", "#CBA9A2");
+          })
+         .on("mouseout", function(d) {
+             div.transition()
+               .duration(500)
+               .style("opacity", 0);
+          });
       
     function clusterbyGender() {
         
@@ -864,7 +929,7 @@ var drawNodesLinks = function(error, _graph){
               .style("stroke-width", 2)
                   
         svg.append("text")
-            .attr("x",width-145)
+            .attr("x",width-155)
             .attr("y", window.innerHeight/2 - 75)
             .text("Mixed Leading Cast")
             .attr("class", "labelText")
@@ -889,7 +954,21 @@ var drawNodesLinks = function(error, _graph){
     }
     
     d3.select('#Adapt')
-      .on("click", clusterbySource);
+      .on("click", clusterbySource)
+      .on("mouseover", function(d) {
+             div.transition()
+               .duration(200)
+               .style("opacity", .9);
+             div.html("Literature, movie, and popular music catalogs are favorable sources for authors and composers. Does readily available source material combined with instant name recognition for a large potential audience equal bigger impact?")
+               .style("left", (d3.event.pageX) + "px")
+               .style("top", (d3.event.pageY - 28) + "px")
+               .style("background", "#CBA9A2");
+          })
+         .on("mouseout", function(d) {
+             div.transition()
+               .duration(500)
+               .style("opacity", 0);
+          });
       
     function clusterbySource() {
         
@@ -976,7 +1055,7 @@ var drawNodesLinks = function(error, _graph){
         svg.append("text")
             .attr("x",width-125)
             .attr("y", window.innerHeight/2 + 110)
-            .text("Music Catalogue")
+            .text("Music Catalog")
             .attr("class", "labelText")
             .style("fill", "#DEAD27")
             .style("text-decoration","underline")
@@ -1070,7 +1149,7 @@ var drawNodesLinks = function(error, _graph){
               .style("stroke-width", 2)
                   
         svg.append("text")
-            .attr("x",width-125)
+            .attr("x",width-135)
             .attr("y", window.innerHeight/2 - 230)
             .text("Romantic Drama")
             .attr("class", "labelText")
@@ -1079,7 +1158,7 @@ var drawNodesLinks = function(error, _graph){
             .attr("text-anchor", "right");
         
         svg.append("text")
-            .attr("x",width-125)
+            .attr("x",width-135)
             .attr("y", window.innerHeight/2 + 200)
             .text("Biopic")
             .attr("class", "labelText")
