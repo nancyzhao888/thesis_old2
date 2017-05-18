@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Timeline Using Dates</title>
+  <meta charset="utf-8" />
+    <style type="text/css">
+      svg {
+        height: 1100px;
+        width: 1100px;
+      }
+      div.viz {
+        height: 1000px;
+        width: 1000px;
+      }
+      </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
+  <script src="d3.layout.timeline.js" charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div id="viz">
+  <svg style="background:white;" height=1100 width=1100>
+  </svg>
+</div>
+<footer>
+</footer>
+<script>
+var timeline = d3.layout.timeline()
+  .size([1000,300]);
+colorScale = d3.scale.ordinal()
+  .domain(["European","Native","Colonial","Latin America","Internal"])
+  .range(["#96abb1", "#313746", "#b0909d", "#687a97", "#292014"]);
+d3.csv("wars.csv", function (csv) {
+  timelineBands = timeline(csv);
+  var svg = d3.select("svg")
+  var circle = svg.selectAll("circle")
+  .data(timelineBands)
+  .enter()
+  .append("circle")
+  .filter(function(d) {
+      return (d.end-d.start) < 8 })
+  .attr("cx", function (d) { return d.start; })
+  .attr("cy", function (d) { return d.y; })
+  .attr("r", function (d) { return 5; })
+  //.attr("x", function (d) {return d.start})
+  //.attr("y", function (d) {return d.y})
+  //.attr("height", 30)
+  //.attr("width", function (d) {return d.end - d.start})
+  .style("fill", function (d) {return colorScale(d.sphere)})
+  .text(function(d) { return d.start;});
+  //.style("stroke", "black")
+  //.style("stroke-width", 1)
+  
+  var rect = svg.selectAll("rect")
+  .data(timelineBands)
+  .enter()
+  .append("rect")
+  .filter(function(d) {
+      return (d.end-d.start) >7 }) // condition here
+  .attr("x", function (d) {return d.start})
+  .attr("y", function (d) {return d.y})
+  .attr("rx", 5)
+  .attr("ry", 5)
+  .attr("height", 10)
+  .attr("width", function (d) {return d.end - d.start})
+  .style("fill", function (d) {return colorScale(d.sphere)});
+  
+  rect.append("title")
+  .text(function(d) { return Date(d.start).getFullYear() });
+  
+  circle.append("title")
+  .text(function(d) { return Date(d.start).getFullYear() });
+  
+})
+</script>
+</body>
+</html>

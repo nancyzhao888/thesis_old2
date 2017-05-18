@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	    <title>The words of LotR</title>
+	    <meta name="author" content="Nadieh Bremer">
+	    <meta name="description" content="Data Sketches - July - Movies - Nadieh - The words in LotR">
+	    <meta name="keywords" content="data, visualization, visualisation, data visualization, data visualisation, information, information visualization, information visualisation, dataviz, datavis, infoviz, infovis, collaboration, data art">
+		
+		<!-- Google fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant:300,400" rel="stylesheet">
+		
+		<!-- Styling -->
+		<link href="css/style.css" rel="stylesheet">
+		
+		<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+		<script src="plugins/d3.js"></script>
+		<script src="plugins/underscore.js"></script>
+		
+		<!-- Custom "chord" and "ribbon" functions -->
+		<script src="js/loom.js"></script>
+		<script src="js/string.js"></script>
+		
+	</head>
+	<body>
+		
+		<div class="lotr-content-wrapper">
+			<h1 id="lotr-title">Who's speaking in <span class="MiddleEarth">Middle Earth</span></h1>
+			<h4 id="lotr-subtitle">How many words have the members of the Fellowship spoken across Middle Earth during all 3 extended editions of the Lord of the Rings</h4>
+			<div id="lotr-intro">
+				In more than 11 hours of the LotR trilogy all characters combined speak approximately 32,000 words. The 9 members of the Fellowship alone take up about 17,000 of these words, a bit more than half. In the visualization below you can find out how many words a member has spoken at each general location throughout the trilogy.<br>The members have been sorted from Gandalf who had the most lines, to Legolas, who spoke even less than Boromir, even though the latter was only in one movie (and some extended scenes).</div>
+			<div id="lotr-note">Hover over characters or locations to get a more detailed overview</div>
+		</div>
+		
+		<div id="lotr-chart"></div>
+			
+		<div class="lotr-content-wrapper">
+			<div id="lotr-footer">
+				<div id="lotr-sources">Go back to <a href="../..">datasketches' July month</a></div>
+				<div id="lotr-credit">Created by <a href="https://twitter.com/NadiehBremer">Nadieh Bremer</a> | <a href="http://www.visualcinnamon.com/">VisualCinnamon.com</a></div>
+				
+			</div>
+		</div>
+		
+		<script src="js/script.js"></script>
+		
+	</body>
+</html>
